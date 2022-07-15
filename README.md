@@ -1,1 +1,2 @@
-# gunnerkrigg_downloader
+# Gunnerkrigg Downloader
+Gunnerkrigg Downloader is a CLI tool for downloading pages from the webcomic [Gunnerkrigg Court](https://www.gunnerkrigg.com/) by Tom Siddell. It either downloads every single page until the beginning or when the user is up-to-date with the webcomic. 
