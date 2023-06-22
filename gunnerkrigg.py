@@ -1,12 +1,22 @@
 from bs4 import BeautifulSoup
 import requests
 import os
+import re
 
 # Starting URL, the homepage
 url = 'https://www.gunnerkrigg.com/'
 
 # Store comics in ./Gunnerkrigg Court
 os.makedirs('Gunnerkrigg Court', exist_ok=True)
+
+res = requests.get(url)
+res.raise_for_status()
+
+soup = BeautifulSoup(res.text, 'html.parser')
+latest_chapter = soup.select('.chapter_button')[-1]
+alt = latest_chapter.img.get('alt')
+total_chapters = re.findall(r'\d+', alt)[0]
+print(f'There are currently {total_chapters} chapters in Gunnerkrigg Court.')
 
 # Iterates over each page until beginning or when up-to-date
 while True:
