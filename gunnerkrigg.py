@@ -15,8 +15,37 @@ res.raise_for_status()
 soup = BeautifulSoup(res.text, 'html.parser')
 latest_chapter = soup.select('.chapter_button')[-1]
 alt = latest_chapter.img.get('alt')
-total_chapters = re.findall(r'\d+', alt)[0]
+regex_result = re.findall(r'\d+', alt)[0]
+total_chapters = int(regex_result)
 print(f'There are currently {total_chapters} chapters in Gunnerkrigg Court.')
+
+download_all = False
+while True:
+    yes_responses = ['y', 'Y', 'yes', 'Yes', 'YES']
+    no_responses = ['n', 'N', 'no', 'No', 'NO']
+    response = input('Do you wish to download all webcomic pages? (y/n) ')
+    if response in yes_responses or response in no_responses: 
+        if response in yes_responses:
+            download_all = True
+        break
+    print('Invalid option...')
+
+if not download_all:
+    print(f'Which chapters do you wish to download? (1-{total_chapters})')
+    while True:
+        try:
+            start_chapter = int(input('Start: '))
+            end_chapter = int(input('End: '))
+        except ValueError:
+            print('Invalid option...')
+            continue
+
+        if start_chapter < 1 or start_chapter > total_chapters:
+            print('Invalid range...')
+        elif end_chapter < start_chapter or end_chapter > total_chapters:
+            print('Invalid range...')
+        else:
+            break
 
 # Iterates over each page until beginning or when up-to-date
 while True:
