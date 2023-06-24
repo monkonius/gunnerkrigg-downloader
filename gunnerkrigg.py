@@ -19,6 +19,9 @@ regex_result = re.findall(r'\d+', alt)[0]
 total_chapters = int(regex_result)
 print(f'There are currently {total_chapters} chapters in Gunnerkrigg Court.')
 
+def decrement_page(page):
+    return page[:3] + str(int(page[3:]) - 1)
+
 download_all = False
 while True:
     yes_responses = ['y', 'Y', 'yes', 'Yes', 'YES']
@@ -45,6 +48,11 @@ if not download_all:
         elif end_chapter < start_chapter or end_chapter > total_chapters:
             print('Invalid range...')
         else:
+            start_data = soup.find('h4', string=re.compile(f'Chapter {start_chapter}'))
+            start_page = start_data.parent.get('href')
+            end_data = soup.find('h4', string=re.compile(f'Chapter {end_chapter + 1}'))
+            end_page = decrement_page(end_data.parent.get('href'))
+            url = url + end_page
             break
 
 # Iterates over each page until beginning or when up-to-date
@@ -91,5 +99,49 @@ if download_all:
         # First comic page, no more previous pages
         else:
             break
+
+else:
+    while True:
+
+        # Download the page
+        print(f'Downloading page {url}...')
+        res = requests.get(url)
+        res.raise_for_status()
+
+        soup = BeautifulSoup(res.text, 'html.parser')
+
+        # Find the URL of the comic image
+        comic = soup.select('.comic_image')
+        if comic == []:
+            print('Could not find comic image.')
+        else:
+            comic_url = f'https://gunnerkrigg.com{comic[0].get("src")}'
+
+            # Download the image
+            res = requests.get(comic_url)
+            res.raise_for_status()
+
+            # Save the image to ./Gunnerkrigg Court
+            file_path = os.path.join('Gunnerkrigg Court', os.path.basename(comic_url))
+            if not os.path.exists(file_path):
+                print(f'Downloading image {comic_url}')
+                with open(file_path, 'wb') as file:
+                    for chunk in res.iter_content(100000):
+                        file.write(chunk)
+
+            # Updated
+            else:
+                print('Page already exists...')
+                break
+
+        # Start comic page range
+        if url.split('/')[-1] == start_page:
+            break
+
+        # Get the previous comic page's URL
+        prev = soup.select('img[src="/images/prev_a.jpg"]')
+        if prev:
+            prev_link = prev[0].parent.get('href')
+            url = f'https://www.gunnerkrigg.com/{prev_link}'
 
 print('Done.')
