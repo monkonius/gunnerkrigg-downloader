@@ -19,8 +19,10 @@ regex_result = re.findall(r'\d+', alt)[0]
 total_chapters = int(regex_result)
 print(f'There are currently {total_chapters} chapters in Gunnerkrigg Court.')
 
+
 def decrement_page(page):
     return page[:3] + str(int(page[3:]) - 1)
+
 
 download_all = False
 while True:
