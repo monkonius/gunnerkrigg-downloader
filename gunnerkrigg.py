@@ -85,10 +85,9 @@ if download_all:
                     for chunk in res.iter_content(100000):
                         file.write(chunk)
 
-            # Updated
+            # Skip image download
             else:
-                print('Page already exists...')
-                break
+                print('Image already exists...')
 
         # Get the previous comic page's URL
         prev = soup.select('img[src="/images/prev_a.jpg"]')
@@ -129,10 +128,9 @@ else:
                     for chunk in res.iter_content(100000):
                         file.write(chunk)
 
-            # Updated
+            # Skip image download
             else:
-                print('Page already exists...')
-                break
+                print('Image already exists...')
 
         # Start comic page range
         if url.split('/')[-1] == start_page:
