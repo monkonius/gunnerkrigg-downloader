@@ -28,7 +28,7 @@ download_all = False
 while True:
     yes_responses = ['y', 'Y', 'yes', 'Yes', 'YES']
     no_responses = ['n', 'N', 'no', 'No', 'NO']
-    response = input('Do you wish to download all webcomic pages? (y/n) ')
+    response = input('Do you wish to download all webcomic pages? [y/n] ')
     if response in yes_responses or response in no_responses: 
         if response in yes_responses:
             download_all = True
@@ -36,7 +36,7 @@ while True:
     print('Invalid option...')
 
 if not download_all:
-    print(f'Which chapters do you wish to download? (1-{total_chapters})')
+    print(f'Which chapters do you wish to download? [1-{total_chapters}]')
     while True:
         try:
             start_chapter = int(input('Start: '))
