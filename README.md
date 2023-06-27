@@ -10,8 +10,10 @@ pip3 install -r requirements.txt
 ```
 
 ## Usage
+Run the program while inside the Gunnerkrigg Downloader repository.
 ```
 python3 gunnerkrigg.py
 Do you wish to download all webcomic pages? [y/n]
 Which chapters do you wish to download? [1-n]
 ```
+The program can be quit prematurely by entering 'q' or using 'Ctrl-D' during prompts, or 'Ctrl-C' when in the middle of downloading images.
