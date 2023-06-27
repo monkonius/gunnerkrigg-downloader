@@ -26,8 +26,7 @@ def decrement_page(page):
 
 
 def check(input):
-    quit_responses = ['q', 'Q', 'quit', 'Quit', 'QUIT']
-    if input in quit_responses:
+    if input == 'q':
         print('Quitting...')
         sys.exit(0)
 
