@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import os
 import re
+import sys
 
 # Starting URL, the homepage
 url = 'https://www.gunnerkrigg.com/'
@@ -24,11 +25,24 @@ def decrement_page(page):
     return page[:3] + str(int(page[3:]) - 1)
 
 
+def check(input):
+    quit_responses = ['q', 'Q', 'quit', 'Quit', 'QUIT']
+    if input in quit_responses:
+        print('Quitting...')
+        sys.exit(0)
+
+    return input
+
+
 download_all = False
 while True:
     yes_responses = ['y', 'Y', 'yes', 'Yes', 'YES']
     no_responses = ['n', 'N', 'no', 'No', 'NO']
-    response = input('Do you wish to download all webcomic pages? [y/n] ')
+    try:
+        response = check(input('Do you wish to download all webcomic pages? [y/n] '))
+    except EOFError:
+        print('\nQuitting...')
+        sys.exit(0)
     if response in yes_responses or response in no_responses: 
         if response in yes_responses:
             download_all = True
@@ -39,11 +53,14 @@ if not download_all:
     print(f'Which chapters do you wish to download? [1-{total_chapters}]')
     while True:
         try:
-            start_chapter = int(input('Start: '))
-            end_chapter = int(input('End: '))
+            start_chapter = int(check(input('Start: ')))
+            end_chapter = int(check(input('End: ')))
         except ValueError:
             print('Invalid option...')
             continue
+        except EOFError:
+            print('\nQuitting...')
+            sys.exit(0)
 
         if start_chapter < 1 or start_chapter > total_chapters:
             print('Invalid range...')
