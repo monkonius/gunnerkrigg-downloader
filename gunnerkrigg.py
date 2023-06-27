@@ -78,87 +78,97 @@ if not download_all:
 if download_all:
     while True:
 
-        # Download the page
-        print(f'Downloading page {url}...')
-        res = requests.get(url)
-        res.raise_for_status()
-
-        soup = BeautifulSoup(res.text, 'html.parser')
-
-        # Find the URL of the comic image
-        comic = soup.select('.comic_image')
-        if comic == []:
-            print('Could not find comic image.')
-        else:
-            comic_url = f'https://gunnerkrigg.com{comic[0].get("src")}'
-
-            # Download the image
-            res = requests.get(comic_url)
+        try:
+            # Download the page
+            print(f'Downloading page {url}...')
+            res = requests.get(url)
             res.raise_for_status()
 
-            # Save the image to ./Gunnerkrigg Court
-            file_path = os.path.join('Gunnerkrigg Court', os.path.basename(comic_url))
-            if not os.path.exists(file_path):
-                print(f'Downloading image {comic_url}')
-                with open(file_path, 'wb') as file:
-                    for chunk in res.iter_content(100000):
-                        file.write(chunk)
+            soup = BeautifulSoup(res.text, 'html.parser')
 
-            # Skip image download
+            # Find the URL of the comic image
+            comic = soup.select('.comic_image')
+            if comic == []:
+                print('Could not find comic image.')
             else:
-                print('Image already exists...')
+                comic_url = f'https://gunnerkrigg.com{comic[0].get("src")}'
 
-        # Get the previous comic page's URL
-        prev = soup.select('img[src="/images/prev_a.jpg"]')
-        if prev:
-            prev_link = prev[0].parent.get('href')
-            url = f'https://www.gunnerkrigg.com/{prev_link}'
+                # Download the image
+                res = requests.get(comic_url)
+                res.raise_for_status()
 
-        # First comic page, no more previous pages
-        else:
-            break
+                # Save the image to ./Gunnerkrigg Court
+                file_path = os.path.join('Gunnerkrigg Court', os.path.basename(comic_url))
+                if not os.path.exists(file_path):
+                    print(f'Downloading image {comic_url}')
+                    with open(file_path, 'wb') as file:
+                        for chunk in res.iter_content(100000):
+                            file.write(chunk)
+
+                # Skip image download
+                else:
+                    print('Image already exists...')
+
+            # Get the previous comic page's URL
+            prev = soup.select('img[src="/images/prev_a.jpg"]')
+            if prev:
+                prev_link = prev[0].parent.get('href')
+                url = f'https://www.gunnerkrigg.com/{prev_link}'
+
+            # First comic page, no more previous pages
+            else:
+                break
+
+        except KeyboardInterrupt:
+            print('\nInterrupted...')
+            sys.exit(0)
 
 else:
     while True:
 
-        # Download the page
-        print(f'Downloading page {url}...')
-        res = requests.get(url)
-        res.raise_for_status()
-
-        soup = BeautifulSoup(res.text, 'html.parser')
-
-        # Find the URL of the comic image
-        comic = soup.select('.comic_image')
-        if comic == []:
-            print('Could not find comic image.')
-        else:
-            comic_url = f'https://gunnerkrigg.com{comic[0].get("src")}'
-
-            # Download the image
-            res = requests.get(comic_url)
+        try:
+            # Download the page
+            print(f'Downloading page {url}...')
+            res = requests.get(url)
             res.raise_for_status()
 
-            # Save the image to ./Gunnerkrigg Court
-            file_path = os.path.join('Gunnerkrigg Court', os.path.basename(comic_url))
-            if not os.path.exists(file_path):
-                print(f'Downloading image {comic_url}')
-                with open(file_path, 'wb') as file:
-                    for chunk in res.iter_content(100000):
-                        file.write(chunk)
+            soup = BeautifulSoup(res.text, 'html.parser')
 
-            # Skip image download
+            # Find the URL of the comic image
+            comic = soup.select('.comic_image')
+            if comic == []:
+                print('Could not find comic image.')
             else:
-                print('Image already exists...')
+                comic_url = f'https://gunnerkrigg.com{comic[0].get("src")}'
 
-        # Start comic page range
-        if url.split('/')[-1] == start_page:
-            break
+                # Download the image
+                res = requests.get(comic_url)
+                res.raise_for_status()
 
-        # Get the previous comic page's URL
-        prev = soup.select('img[src="/images/prev_a.jpg"]')
-        if prev:
-            prev_link = prev[0].parent.get('href')
-            url = f'https://www.gunnerkrigg.com/{prev_link}'
+                # Save the image to ./Gunnerkrigg Court
+                file_path = os.path.join('Gunnerkrigg Court', os.path.basename(comic_url))
+                if not os.path.exists(file_path):
+                    print(f'Downloading image {comic_url}')
+                    with open(file_path, 'wb') as file:
+                        for chunk in res.iter_content(100000):
+                            file.write(chunk)
+
+                # Skip image download
+                else:
+                    print('Image already exists...')
+
+            # Start comic page range
+            if url.split('/')[-1] == start_page:
+                break
+
+            # Get the previous comic page's URL
+            prev = soup.select('img[src="/images/prev_a.jpg"]')
+            if prev:
+                prev_link = prev[0].parent.get('href')
+                url = f'https://www.gunnerkrigg.com/{prev_link}'
+        
+        except KeyboardInterrupt:
+            print('\nInterrupted...')
+            sys.exit(0)
 
 print('Done.')
