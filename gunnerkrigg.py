@@ -21,11 +21,13 @@ total_chapters = int(regex_result)
 print(f'There are currently {total_chapters} chapters in Gunnerkrigg Court.')
 
 
-def decrement_page(page):
+def decrement_page(page: str):
+    """Decrement the string value of the webcomic page by 1."""
     return page[:3] + str(int(page[3:]) - 1)
 
 
-def check(input):
+def check(input: str):
+    """Check the input of the user and either return the input value or quit the program."""
     if input == 'q':
         print('Quitting...')
         sys.exit(0)
@@ -33,6 +35,7 @@ def check(input):
     return input
 
 
+# Prompt user if they want to download all pages or a chapter range
 download_all = False
 while True:
     yes_responses = ['y', 'Y', 'yes', 'Yes', 'YES']
@@ -122,6 +125,7 @@ if download_all:
             print('\nInterrupted...')
             sys.exit(0)
 
+#  Download selected chapters
 else:
     while True:
 
