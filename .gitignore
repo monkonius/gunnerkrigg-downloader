@@ -1,3 +1,4 @@
 Gunnerkrigg Court
 env
 .venv
+.DS_Store
