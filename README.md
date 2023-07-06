@@ -17,3 +17,5 @@ Do you wish to download all webcomic pages? [y/n]
 Which chapters do you wish to download? [1-n]
 ```
 The program can be quit prematurely by entering 'q' or using 'Ctrl-D' during prompts, or 'Ctrl-C' when in the middle of downloading images.
+
+<img width="829" alt="gunnerkrigg" src="https://github.com/monkonius/gunnerkrigg-downloader/assets/65208909/0146123b-f345-49b3-9c66-131d2b17705d">
