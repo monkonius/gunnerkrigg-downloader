@@ -4,6 +4,21 @@ import os
 import re
 import sys
 
+
+def decrement_page(page: str):
+    """Decrement the string value of the webcomic page by 1."""
+    return page[:3] + str(int(page[3:]) - 1)
+
+
+def check(input: str):
+    """Check the input of the user and either return the input value or quit the program."""
+    if input == 'q':
+        print('Quitting...')
+        sys.exit(0)
+
+    return input
+
+
 # Starting URL, the homepage
 url = 'https://www.gunnerkrigg.com/'
 
@@ -23,21 +38,6 @@ alt = latest_chapter.img.get('alt')
 regex_result = re.findall(r'\d+', alt)[0]
 total_chapters = int(regex_result)
 print(f'There are currently {total_chapters} chapters in Gunnerkrigg Court.')
-
-
-def decrement_page(page: str):
-    """Decrement the string value of the webcomic page by 1."""
-    return page[:3] + str(int(page[3:]) - 1)
-
-
-def check(input: str):
-    """Check the input of the user and either return the input value or quit the program."""
-    if input == 'q':
-        print('Quitting...')
-        sys.exit(0)
-
-    return input
-
 
 # Prompt user if they want to download all pages or a chapter range
 download_all = False
