@@ -10,8 +10,12 @@ url = 'https://www.gunnerkrigg.com/'
 # Store comics in ./Gunnerkrigg Court
 os.makedirs('Gunnerkrigg Court', exist_ok=True)
 
-res = requests.get(url)
-res.raise_for_status()
+try:
+    res = requests.get(url, timeout=5)
+    res.raise_for_status()
+except Exception as error:
+    print(error, '\nPlease try again.')
+    sys.exit(1)
 
 soup = BeautifulSoup(res.text, 'html.parser')
 latest_chapter = soup.select('.chapter_button')[-1]
@@ -83,8 +87,12 @@ if download_all:
         try:
             # Download the page
             print(f'Downloading page {url}...')
-            res = requests.get(url)
-            res.raise_for_status()
+            try:
+                res = requests.get(url, timeout=5)
+                res.raise_for_status()
+            except Exception as error:
+                print(error, '\nPlease try again.')
+                sys.exit(1)
 
             soup = BeautifulSoup(res.text, 'html.parser')
 
@@ -96,8 +104,12 @@ if download_all:
                 comic_url = f'https://gunnerkrigg.com{comic[0].get("src")}'
 
                 # Download the image
-                res = requests.get(comic_url)
-                res.raise_for_status()
+                try:
+                    res = requests.get(comic_url)
+                    res.raise_for_status()
+                except Exception as error:
+                    print(error, '\nPlease try again.')
+                    sys.exit(1)
 
                 # Save the image to ./Gunnerkrigg Court
                 file_path = os.path.join('Gunnerkrigg Court', os.path.basename(comic_url))
@@ -132,8 +144,12 @@ else:
         try:
             # Download the page
             print(f'Downloading page {url}...')
-            res = requests.get(url)
-            res.raise_for_status()
+            try:
+                res = requests.get(url)
+                res.raise_for_status()
+            except Exception as error:
+                print(error, '\nPlease try again.')
+                sys.exit(1)
 
             soup = BeautifulSoup(res.text, 'html.parser')
 
@@ -145,8 +161,12 @@ else:
                 comic_url = f'https://gunnerkrigg.com{comic[0].get("src")}'
 
                 # Download the image
-                res = requests.get(comic_url)
-                res.raise_for_status()
+                try:
+                    res = requests.get(comic_url)
+                    res.raise_for_status()
+                except Exception as error:
+                    print(error, '\nPlease try again.')
+                    sys.exit(1)
 
                 # Save the image to ./Gunnerkrigg Court
                 file_path = os.path.join('Gunnerkrigg Court', os.path.basename(comic_url))
