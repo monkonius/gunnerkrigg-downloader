@@ -73,9 +73,9 @@ if not download_all:
         elif end_chapter < start_chapter or end_chapter > total_chapters:
             print('Invalid range...')
         else:
-            start_data = soup.find('h4', string=re.compile(f'Chapter {start_chapter}'))
+            start_data = soup.find('strong', string=re.compile(f'Chapter {start_chapter}'))
             start_page = start_data.parent.get('href')
-            end_data = soup.find('h4', string=re.compile(f'Chapter {end_chapter + 1}'))
+            end_data = soup.find('strong', string=re.compile(f'Chapter {end_chapter + 1}'))
             end_page = decrement_page(end_data.parent.get('href'))
             url = url + end_page
             break
